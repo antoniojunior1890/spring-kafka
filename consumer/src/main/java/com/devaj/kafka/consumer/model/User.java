@@ -1,4 +1,4 @@
-package com.devaj.kafka.producer.model;
+package com.devaj.kafka.consumer.model;
 
 import lombok.*;
 

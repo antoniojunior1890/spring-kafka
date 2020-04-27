@@ -1,7 +1,7 @@
 package com.devaj.kafka.producer.controller;
 
 import com.devaj.kafka.producer.model.User;
-import com.devaj.kafka.producer.service.Producer;
+import com.devaj.kafka.producer.service.ProducerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/kafka")
 public class KafkaController {
-    private final Producer producer;
+    private final ProducerService producerService;
 
     @Autowired
-    KafkaController(Producer producer) {
-        this.producer = producer;
+    KafkaController(ProducerService producerService) {
+        this.producerService = producerService;
     }
 
     @PostMapping(value = "/publish")
     public void sendMessageToKafkaTopic(@RequestBody User user) {
-        this.producer.sendMessage(user);
+        this.producerService.sendMessage(user);
     }
 }

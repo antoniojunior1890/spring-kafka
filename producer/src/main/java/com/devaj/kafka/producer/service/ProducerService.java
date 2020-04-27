@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class Producer {
+public class ProducerService {
 
     @Value("${order.topic}")
     private String TOPIC;
@@ -25,14 +25,8 @@ public class Producer {
     @Autowired
     private KafkaTemplate<String, User> kafkaTemplate;
 
-//    public void sendMessage(String message) {
-//        log.info("#### -> Producing message -> " + message);
-//        this.kafkaTemplate.send(TOPIC, message);
-//    }
-
     public void sendMessage(User user) {
         log.info("#### -> Producing message -> " + user);
-//        this.kafkaTemplate.send(TOPIC, user);
         Message<User> userMessage = MessageBuilder
                 .withPayload(user)
                 .setHeader(KafkaHeaders.TOPIC, TOPIC)

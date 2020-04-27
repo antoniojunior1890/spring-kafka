@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class Consumer {
+public class ConsumerService {
 
     @KafkaListener(topics = "${order.topic}") //, groupId = "${spring.kafka.consumer.group-id}")
     public void consume(@Payload User data,
@@ -21,13 +21,9 @@ public class Consumer {
 
         log.info("#### -> Consumed message -> " + data);
 
-//        LOG.info("received data='{}'", data);
-//
-//        headers.keySet().forEach(key -> {
-//            LOG.info("{}: {}", key, headers.get(key));
-//        });
+        headers.keySet().forEach(key -> {
+            log.info("{}: {}", key, headers.get(key));
+        });
     }
-//    public void consume(String message) throws IOException {
-//        log.info("#### -> Consumed message -> " + message);
-//    }
+
 }

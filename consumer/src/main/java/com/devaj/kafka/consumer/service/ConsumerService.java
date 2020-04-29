@@ -2,6 +2,7 @@ package com.devaj.kafka.consumer.service;
 
 import com.devaj.kafka.consumer.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -15,15 +16,21 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ConsumerService {
 
-    @KafkaListener(topics = "${order.topic}") //, groupId = "${spring.kafka.consumer.group-id}")
+    private final ProducerService producerService;
+
+    @Autowired
+    public ConsumerService(ProducerService producerService) {
+        this.producerService = producerService;
+    }
+
+    @KafkaListener(topics = "${topic.unprocessed}")
     public void consume(@Payload User data,
                         @Headers MessageHeaders headers) {
 
         log.info("#### -> Consumed message -> " + data);
 
-        headers.keySet().forEach(key -> {
-            log.info("{}: {}", key, headers.get(key));
-        });
+        producerService.sendMessage("Mensagem processada : "+ data.getName());
+
     }
 
 }

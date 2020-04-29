@@ -1,6 +1,5 @@
-package com.devaj.kafka.producer.service;
+package com.devaj.kafka.consumer.service;
 
-import com.devaj.kafka.producer.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,17 +16,17 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ProducerService {
 
-    @Value("${topic.unprocessed}")
-    private String TOPIC;
+    @Value("${topic.processed}")
+    private String TOPIC_RESPONSE;
 
     @Autowired
-    private KafkaTemplate<String, User> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendMessage(User user) {
-        log.info("#### -> Producing message -> " + user);
-        Message<User> userMessage = MessageBuilder
-                .withPayload(user)
-                .setHeader(KafkaHeaders.TOPIC, TOPIC)
+    public void sendMessage(String message) {
+        log.info("#### -> Consumer response -> " + message);
+        Message<String> userMessage = MessageBuilder
+                .withPayload(message)
+                .setHeader(KafkaHeaders.TOPIC, TOPIC_RESPONSE)
                 .build();
 
         kafkaTemplate.send(userMessage);

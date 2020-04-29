@@ -2,8 +2,17 @@ server:
   port: 9000
 spring:
   kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group_two
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     producer:
       bootstrap-servers: localhost:9092
 
-order:
-  topic: ordertopics
+topic:
+  unprocessed: unprocessed
+  processed: processed
